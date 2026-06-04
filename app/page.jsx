@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -25,196 +25,6 @@ import {
   Star,
   Quote,
 } from "lucide-react";
-
-// ============================================
-// CENTRALIZED CONTENT MANAGEMENT
-// ============================================
-const content = {
-  brand: {
-    name: "HUSTLERS",
-    superscript: "Team",
-    tagline: "Building Your Dreams",
-    subHeadline: "Quiet Grind. Loud Results.",
-    partner: "AyalaLand International Sales",
-    footerTagline: "Helping OFWs build homes. Creating legacies.",
-    hashtag: "#TeamHustlersUAE",
-  },
-  logos: {
-    header: "/images/logo/logo-white.png",
-    hero: "/images/logo/logo-white.png"
-  },
-  navLinks: [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Services", href: "#services" },
-    { label: "Gallery", href: "#gallery" },
-    { label: "Our People", href: "#people" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "Available Units", href: "#units" },
-    { label: "Contact", href: "#contact" },
-  ],
-  hero: {
-    backgroundImage: "images/background/hero.png",
-    ctaText: "Start Your Journey",
-    ctaHref: "#contact",
-  },
-  about: {
-    title: "About Us",
-    heading: "Prestige. Trust. Ambition.",
-    paragraphs: [
-      "<sup>Team</sup> HUSTLERS UAE is a premier real estate consultancy proudly partnered with AyalaLand International Sales. We specialize in helping overseas Filipinos and international investors secure premium properties that appreciate in value and stand the test of time.",
-      "Our mission is simple: to turn your dreams into addresses. Whether you're buying your first home, expanding your investment portfolio, or seeking expert property management, we deliver results with integrity, discretion, and relentless dedication.",
-    ],
-    stats: [
-      { value: "500+", label: "Properties Sold" },
-      { value: "₱2B+", label: "Portfolio Value" },
-      { value: "98%", label: "Client Satisfaction" },
-      { value: "10+", label: "Years Experience" },
-    ],
-  },
-  services: [
-    {
-      icon: "Home",
-      title: "Property Buying",
-      description: "Expert guidance through every step of acquiring your dream home or investment property in prime locations.",
-    },
-    {
-      icon: "TrendingUp",
-      title: "Property Selling",
-      description: "Strategic marketing and valuation services to maximize your property's market value and ensure a swift sale.",
-    },
-    {
-      icon: "Building2",
-      title: "Investment Consulting",
-      description: "Data-driven insights and personalized strategies to build a resilient, high-yield real estate portfolio.",
-    },
-    {
-      icon: "Key",
-      title: "Property Management",
-      description: "End-to-end management services for landlords, ensuring tenant satisfaction and optimal asset performance.",
-    },
-  ],
-  gallery: [
-    {
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/14cfedc39-1ec6-9518-a9e2-dd0f4a3baf45.png",
-      caption: "Elegant Living Spaces",
-    },
-    {
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/171863aab-8d3d-4cad-8b81-f16aa75fe258.png",
-      caption: "Rooftop Infinity Pool",
-    },
-    {
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1bc0b29c1-f4d1-4139-80bb-323e83705b15.png",
-      caption: "Serene Master Suites",
-    },
-    {
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1497ea0f7-bd18-40d7-8e50-f12eb5cd9af2.png",
-      caption: "Modern Architecture",
-    },
-  ],
-  people: [
-    {
-      image: "/images/team/jane.jpeg",
-      name: "Mrs. Jane",
-      role: "Senior Associate Manager",
-      bio: "“I don't just present options, I help you see possibilities and build the right path towards your future.”",
-    },
-    {
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1d716e910-bb0c-9101-bd87-02affeac5bc8.png",
-      name: "Sofia Reyes",
-      role: "Investment Strategist",
-      bio: "Specialist in OFW investment portfolios and AyalaLand pre-selling units.",
-    },
-    {
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1ba038120-5099-41d2-b247-7d67fbf58496.png",
-      name: "Daniel Santos",
-      role: "Client Relations Director",
-      bio: "Dedicated to delivering white-glove service from inquiry to turnover.",
-    },
-  ],
-  testimonials: [
-    {
-      quote: "Team HUSTLERS made my dream of owning an AyalaLand condo in BGC a reality. Their transparency and hustle are unmatched.",
-      author: "Maria Lourdes T.",
-      role: "OFW in Dubai",
-      rating: 5,
-    },
-    {
-      quote: "I've worked with many agencies, but none match the professionalism and results-driven approach of this team. Truly building legacies.",
-      author: "Roberto Villanueva",
-      role: "Property Investor",
-      rating: 5,
-    },
-    {
-      quote: "From consultation to turnover, every detail was handled with care. My family now has a home we're proud of.",
-      author: "Jennifer & Mark Lim",
-      role: "First-time Homebuyers",
-      rating: 5,
-    },
-  ],
-  units: [
-    {
-      id: 1,
-      title: "The Azure Residences",
-      location: "BGC, Taguig City",
-      price: "Starting at ₱12.5M",
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1ec6d6aa5-948b-4803-aaf8-d3356bbeb2ce.png",
-      description: "A prestigious 45-storey residential tower offering panoramic views of Manila Bay and the city skyline. Features world-class amenities, smart home technology, and direct access to premium retail and dining.",
-      amenities: ["Swimming Pool", "Fitness Center", "24/7 Security", "Parking", "Garden Lounge", "High-Speed Internet"],
-      gallery: [
-        { label: "Kitchen", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1e3587835-98da-4414-9a60-1f960ca9172d.png" },
-        { label: "Living Room", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1fbbfcf37-ce3e-4509-935d-18c1d53c010e.png" },
-        { label: "Bedroom", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/19a736e21-516d-4782-8e54-3c44681adc30.png" },
-        { label: "Balcony", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/194279565-7af1-4cab-b531-64e798785882.png" },
-        { label: "Exterior", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1e5213098-badd-4bc1-bb2d-8167753e3200.png" },
-      ],
-    },
-    {
-      id: 2,
-      title: "The Meridian Towers",
-      location: "Makati CBD",
-      price: "Starting at ₱18.9M",
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1497ea0f7-bd18-40d7-8e50-f12eb5cd9af2.png",
-      description: "Ultra-luxury condominium in the heart of Makati's financial district. Designed for discerning professionals and investors seeking exclusivity, convenience, and unmatched capital appreciation.",
-      amenities: ["Rooftop Pool", "Private Gym", "Concierge", "Valet Parking", "Sky Lounge", "Business Center"],
-      gallery: [
-        { label: "Kitchen", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1e3587835-98da-4414-9a60-1f960ca9172d.png" },
-        { label: "Living Room", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/14cfedc39-1ec6-9518-a9e2-dd0f4a3baf45.png" },
-        { label: "Bedroom", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1bc0b29c1-f4d1-4139-80bb-323e83705b15.png" },
-        { label: "Balcony", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/194279565-7af1-4cab-b531-64e798785882.png" },
-        { label: "Exterior", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1ec6d6aa5-948b-4803-aaf8-d3356bbeb2ce.png" },
-      ],
-    },
-    {
-      id: 3,
-      title: "The Alveo Land Estates",
-      location: "Nuvali, Sta. Rosa",
-      price: "Starting at ₱8.2M",
-      image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/171863aab-8d3d-4cad-8b81-f16aa75fe258.png",
-      description: "Master-planned community offering serene lakefront living with resort-style amenities. Perfect for families seeking space, nature, and long-term value growth in South Luzon's premier township.",
-      amenities: ["Lake Access", "Clubhouse", "Jogging Paths", "Playgrounds", "Security", "Green Spaces"],
-      gallery: [
-        { label: "Kitchen", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1e3587835-98da-4414-9a60-1f960ca9172d.png" },
-        { label: "Living Room", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1fbbfcf37-ce3e-4509-935d-18c1d53c010e.png" },
-        { label: "Bedroom", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/19a736e21-516d-4782-8e54-3c44681adc30.png" },
-        { label: "Balcony", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/194279565-7af1-4cab-b531-64e798785882.png" },
-        { label: "Exterior", image: "https://image.qwenlm.ai/public_source/0d85a3ce-a516-4d6c-a350-e1ca6261d345/1e5213098-badd-4bc1-bb2d-8167753e3200.png" },
-      ],
-    },
-  ],
-  contact: {
-    phone: "+971 4 123 4567",
-    email: "hello@teamhustlers.ae",
-    address: "Business Bay, Dubai, United Arab Emirates",
-    hours: "Mon - Sat: 9:00 AM - 7:00 PM GST",
-    socials: {
-      //linkedin: "https://linkedin.com",
-      instagram: "https://www.instagram.com/teamhustlers_ayalaland?igsh=MThsenRsZjM5aGR5cQ%3D%3D&utm_source=qr",
-      facebook: "https://www.facebook.com/share/17ruWSx4S6/?mibextid=wwXIfr"//,
-      //whatsapp: "https://wa.me/97141234567",
-    },
-  },
-};
 
 // ============================================
 // SOCIAL ICONS (Inline SVG)
@@ -248,7 +58,7 @@ const SocialIcon = ({ type, className = "w-6 h-6" }) => {
 // ============================================
 // HEADER
 // ============================================
-const Header = () => {
+const Header = ({ content }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -267,24 +77,24 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/95 backdrop-blur-md shadow-lg py-2" : "bg-transparent py-4"
+        isScrolled ? "bg-black/95 backdrop-blur-md shadow-lg py-2" : "bg-transparent py-3"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         <div className="flex items-center">
           <img
             src={content.logos.header}
             alt="Team HUSTLERS Header Logo"
-            className="h-12 w-auto drop-shadow-md"
+            className="h-8 sm:h-10 lg:h-12 w-auto drop-shadow-md"
           />
         </div>
 
-        <nav className="hidden lg:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
           {content.navLinks.map((link) => (
             <button
               key={link.href}
               onClick={() => handleNavClick(link.href)}
-              className="text-white/90 hover:text-[#D4AF37] transition-colors text-sm font-medium tracking-wide uppercase"
+              className="text-white/90 hover:text-[#D4AF37] transition-colors text-xs xl:text-sm font-medium tracking-wide uppercase"
             >
               {link.label}
             </button>
@@ -307,7 +117,7 @@ const Header = () => {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-black/98 backdrop-blur-md border-t border-white/10"
           >
-            <div className="px-6 py-4 space-y-3">
+            <div className="px-4 sm:px-6 py-4 space-y-2">
               {content.navLinks.map((link) => (
                 <button
                   key={link.href}
@@ -328,7 +138,7 @@ const Header = () => {
 // ============================================
 // HERO
 // ============================================
-const Hero = () => {
+const Hero = ({ content }) => {
   const handleCtaClick = () => {
     const el = document.querySelector("#contact");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -345,7 +155,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
       </div>
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -354,7 +164,7 @@ const Hero = () => {
           <img
             src={content.logos.hero}
             alt="Team HUSTLERS Hero Logo"
-            className="h-[240px] w-auto mx-auto brightness-110 contrast-125 drop-shadow-2xl"
+            className="h-[120px] sm:h-[180px] md:h-[220px] lg:h-[240px] w-auto mx-auto brightness-110 contrast-125 drop-shadow-2xl"
           />
         </motion.div>
 
@@ -362,7 +172,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
-          className="text-[#D4AF37] text-lg md:text-xl font-light tracking-[0.3em] uppercase mt-6"
+          className="text-[#D4AF37] text-xs sm:text-sm md:text-lg lg:text-xl font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase mt-4 sm:mt-6"
         >
           {content.brand.tagline}
         </motion.p>
@@ -371,7 +181,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-white text-2xl md:text-4xl font-light mt-4 italic"
+          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light mt-3 sm:mt-4 italic px-2"
         >
           {content.brand.subHeadline}
         </motion.h2>
@@ -380,7 +190,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.7 }}
-          className="text-white/70 text-sm md:text-base mt-6 tracking-wide"
+          className="text-white/70 text-xs sm:text-sm md:text-base mt-4 sm:mt-6 tracking-wide px-2"
         >
           In Partnership with {content.brand.partner}
         </motion.p>
@@ -390,14 +200,14 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9 }}
           onClick={handleCtaClick}
-          className="mt-10 px-10 py-4 bg-[#D4AF37] text-black font-semibold tracking-widest uppercase text-sm hover:bg-white transition-all duration-300 shadow-2xl hover:shadow-[#D4AF37]/30"
+          className="mt-6 sm:mt-8 lg:mt-10 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 bg-[#D4AF37] text-black font-semibold tracking-widest uppercase text-xs sm:text-sm hover:bg-white transition-all duration-300 shadow-2xl hover:shadow-[#D4AF37]/30"
         >
           {content.hero.ctaText}
         </motion.button>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/40 rounded-full flex justify-center pt-1 sm:pt-2">
           <div className="w-1 h-2 bg-[#D4AF37] rounded-full" />
         </div>
       </div>
@@ -408,24 +218,24 @@ const Hero = () => {
 // ============================================
 // ABOUT
 // ============================================
-const About = () => {
+const About = ({ content }) => {
   return (
-    <section id="about" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+    <section id="about" className="py-12 sm:py-16 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase font-medium">
+            <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.3em] uppercase font-medium">
               {content.about.title}
             </p>
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mt-4 leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-gray-900 mt-3 sm:mt-4 leading-tight">
               {content.about.heading}
             </h2>
-            <div className="mt-8 space-y-5 text-gray-600 leading-relaxed">
+            <div className="mt-6 sm:mt-8 space-y-4 sm:space-y-5 text-gray-600 leading-relaxed text-sm sm:text-base">
               {content.about.paragraphs.map((para, idx) => (
                 <p key={idx} dangerouslySetInnerHTML={{ __html: para }} />
               ))}
@@ -437,15 +247,15 @@ const About = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-2 gap-6"
+            className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6"
           >
             {content.about.stats.map((stat, idx) => (
               <div
                 key={idx}
-                className="bg-gray-50 border border-gray-100 p-8 text-center hover:border-[#D4AF37] transition-colors duration-300"
+                className="bg-gray-50 border border-gray-100 p-4 sm:p-6 lg:p-8 text-center hover:border-[#D4AF37] transition-colors duration-300"
               >
-                <div className="text-4xl font-light text-[#D4AF37]">{stat.value}</div>
-                <div className="text-sm text-gray-600 mt-2 tracking-wide uppercase">{stat.label}</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-light text-[#D4AF37]">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-gray-600 mt-2 tracking-wide uppercase">{stat.label}</div>
               </div>
             ))}
           </motion.div>
@@ -458,7 +268,7 @@ const About = () => {
 // ============================================
 // SERVICES
 // ============================================
-const Services = () => {
+const Services = ({ content }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -466,24 +276,24 @@ const Services = () => {
       setActiveIndex((prev) => (prev + 1) % content.services.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [content.services.length]);
 
   const iconMap = { Home, TrendingUp, Building2, Key };
 
   return (
-    <section id="services" className="py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="services" className="py-12 sm:py-16 lg:py-24 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
-          <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase font-medium">What We Do</p>
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mt-4">Our Services</h2>
+          <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.3em] uppercase font-medium">What We Do</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-gray-900 mt-3 sm:mt-4">Our Services</h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {content.services.map((service, idx) => {
             const IconComponent = iconMap[service.icon];
             const isActive = idx === activeIndex;
@@ -494,17 +304,17 @@ const Services = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className={`p-8 border transition-all duration-500 cursor-default ${
+                className={`p-5 sm:p-6 lg:p-8 border transition-all duration-500 cursor-default ${
                   isActive
-                    ? "bg-black text-white border-[#D4AF37] shadow-2xl scale-105"
+                    ? "bg-black text-white border-[#D4AF37] shadow-2xl"
                     : "bg-white text-gray-900 border-gray-200 hover:border-[#D4AF37]"
                 }`}
               >
-                <div className={`w-14 h-14 flex items-center justify-center mb-6 ${isActive ? "text-[#D4AF37]" : "text-gray-900"}`}>
-                  <IconComponent size={32} strokeWidth={1.5} />
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-4 sm:mb-6 ${isActive ? "text-[#D4AF37]" : "text-gray-900"}`}>
+                  <IconComponent size={28} strokeWidth={1.5} />
                 </div>
-                <h3 className="text-xl font-medium mb-3 tracking-wide">{service.title}</h3>
-                <p className={`text-sm leading-relaxed ${isActive ? "text-white/80" : "text-gray-600"}`}>
+                <h3 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3 tracking-wide">{service.title}</h3>
+                <p className={`text-xs sm:text-sm leading-relaxed ${isActive ? "text-white/80" : "text-gray-600"}`}>
                   {service.description}
                 </p>
               </motion.div>
@@ -512,13 +322,13 @@ const Services = () => {
           })}
         </div>
 
-        <div className="flex justify-center mt-10 space-x-2">
+        <div className="flex justify-center mt-8 sm:mt-10 space-x-2">
           {content.services.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setActiveIndex(idx)}
               className={`h-1 transition-all duration-300 ${
-                idx === activeIndex ? "w-10 bg-[#D4AF37]" : "w-4 bg-gray-300"
+                idx === activeIndex ? "w-8 sm:w-10 bg-[#D4AF37]" : "w-4 bg-gray-300"
               }`}
             />
           ))}
@@ -531,7 +341,7 @@ const Services = () => {
 // ============================================
 // GALLERY
 // ============================================
-const Gallery = () => {
+const Gallery = ({ content }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -541,7 +351,7 @@ const Gallery = () => {
       setCurrentIndex((prev) => (prev + 1) % content.gallery.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [content.gallery.length]);
 
   const openLightbox = (idx) => {
     setLightboxIndex(idx);
@@ -549,16 +359,16 @@ const Gallery = () => {
   };
 
   return (
-    <section id="gallery" className="py-24 bg-black">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="gallery" className="py-12 sm:py-16 lg:py-24 bg-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
-          <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase font-medium">Portfolio</p>
-          <h2 className="text-4xl md:text-5xl font-light text-white mt-4">Gallery</h2>
+          <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.3em] uppercase font-medium">Portfolio</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-white mt-3 sm:mt-4">Gallery</h2>
         </motion.div>
 
         <div className="relative">
@@ -569,7 +379,7 @@ const Gallery = () => {
               className="flex"
             >
               {content.gallery.map((item, idx) => (
-                <div key={idx} className="w-full flex-shrink-0 px-2">
+                <div key={idx} className="w-full flex-shrink-0 px-1 sm:px-2">
                   <div
                     onClick={() => openLightbox(idx)}
                     className="relative group cursor-pointer overflow-hidden aspect-[16/10]"
@@ -580,8 +390,8 @@ const Gallery = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500 flex items-end justify-center">
-                      <div className="translate-y-full group-hover:translate-y-0 transition-transform duration-500 pb-8">
-                        <p className="text-[#D4AF37] text-lg tracking-widest uppercase font-medium">
+                      <div className="translate-y-full group-hover:translate-y-0 transition-transform duration-500 pb-4 sm:pb-8 px-2">
+                        <p className="text-[#D4AF37] text-xs sm:text-sm lg:text-lg tracking-widest uppercase font-medium text-center">
                           {item.caption}
                         </p>
                       </div>
@@ -594,24 +404,24 @@ const Gallery = () => {
 
           <button
             onClick={() => setCurrentIndex((prev) => (prev - 1 + content.gallery.length) % content.gallery.length)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-white transition-colors"
+            className="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 -translate-x-1 sm:-translate-x-2 w-10 h-10 sm:w-12 sm:h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-white transition-colors"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </button>
           <button
             onClick={() => setCurrentIndex((prev) => (prev + 1) % content.gallery.length)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-white transition-colors"
+            className="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 translate-x-1 sm:translate-x-2 w-10 h-10 sm:w-12 sm:h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-white transition-colors"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </button>
 
-          <div className="flex justify-center mt-8 space-x-2">
+          <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
             {content.gallery.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 className={`h-1 transition-all duration-300 ${
-                  idx === currentIndex ? "w-10 bg-[#D4AF37]" : "w-4 bg-white/30"
+                  idx === currentIndex ? "w-6 sm:w-10 bg-[#D4AF37]" : "w-4 bg-white/30"
                 }`}
               />
             ))}
@@ -625,32 +435,32 @@ const Gallery = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-6"
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
             onClick={() => setLightboxOpen(false)}
           >
             <button
               onClick={() => setLightboxOpen(false)}
-              className="absolute top-6 right-6 text-white hover:text-[#D4AF37] transition-colors"
+              className="absolute top-4 right-4 text-white hover:text-[#D4AF37] transition-colors z-10"
             >
-              <X size={32} />
+              <X size={28} />
             </button>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setLightboxIndex((prev) => (prev - 1 + content.gallery.length) % content.gallery.length);
               }}
-              className="absolute left-6 text-white hover:text-[#D4AF37] transition-colors"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-white hover:text-[#D4AF37] transition-colors"
             >
-              <ChevronLeft size={40} />
+              <ChevronLeft size={32} />
             </button>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setLightboxIndex((prev) => (prev + 1) % content.gallery.length);
               }}
-              className="absolute right-6 text-white hover:text-[#D4AF37] transition-colors"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-white hover:text-[#D4AF37] transition-colors"
             >
-              <ChevronRight size={40} />
+              <ChevronRight size={32} />
             </button>
             <motion.img
               key={lightboxIndex}
@@ -659,11 +469,11 @@ const Gallery = () => {
               exit={{ opacity: 0, scale: 0.9 }}
               src={content.gallery[lightboxIndex].image}
               alt={content.gallery[lightboxIndex].caption}
-              className="max-w-5xl max-h-[85vh] object-contain"
+              className="max-w-full max-h-[80vh] object-contain"
               onClick={(e) => e.stopPropagation()}
             />
-            <div className="absolute bottom-8 text-center">
-              <p className="text-[#D4AF37] text-lg tracking-widest uppercase">
+            <div className="absolute bottom-4 sm:bottom-8 text-center left-0 right-0 px-4">
+              <p className="text-[#D4AF37] text-sm sm:text-lg tracking-widest uppercase">
                 {content.gallery[lightboxIndex].caption}
               </p>
             </div>
@@ -677,7 +487,7 @@ const Gallery = () => {
 // ============================================
 // OUR PEOPLE
 // ============================================
-const OurPeople = () => {
+const OurPeople = ({ content }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -685,22 +495,22 @@ const OurPeople = () => {
       setCurrentIndex((prev) => (prev + 1) % content.people.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [content.people.length]);
 
   return (
-    <section id="people" className="py-24 bg-white">
-      <div className="max-w-5xl mx-auto px-6">
+    <section id="people" className="py-12 sm:py-16 lg:py-24 bg-white">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
-          <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase font-medium">The Team</p>
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mt-4">Our People</h2>
+          <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.3em] uppercase font-medium">The Team</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-gray-900 mt-3 sm:mt-4">Our People</h2>
         </motion.div>
 
-        <div className="relative min-h-[450px]">
+        <div className="relative min-h-[350px] sm:min-h-[400px] lg:min-h-[450px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -710,20 +520,20 @@ const OurPeople = () => {
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-[#D4AF37] shadow-2xl">
+              <div className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mx-auto rounded-full overflow-hidden border-4 border-[#D4AF37] shadow-2xl">
                 <img
                   src={content.people[currentIndex].image}
                   alt={content.people[currentIndex].name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-2xl font-medium text-gray-900 mt-6 tracking-wide">
+              <h3 className="text-xl sm:text-2xl font-medium text-gray-900 mt-4 sm:mt-6 tracking-wide px-2">
                 {content.people[currentIndex].name}
               </h3>
-              <p className="text-[#D4AF37] text-sm tracking-widest uppercase mt-2">
+              <p className="text-[#D4AF37] text-xs sm:text-sm tracking-widest uppercase mt-2">
                 {content.people[currentIndex].role}
               </p>
-              <p className="text-gray-600 mt-4 max-w-md mx-auto leading-relaxed">
+              <p className="text-gray-600 mt-3 sm:mt-4 max-w-md mx-auto leading-relaxed text-sm sm:text-base px-4">
                 {content.people[currentIndex].bio}
               </p>
             </motion.div>
@@ -731,25 +541,25 @@ const OurPeople = () => {
 
           <button
             onClick={() => setCurrentIndex((prev) => (prev - 1 + content.people.length) % content.people.length)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
+            className="absolute left-0 sm:-left-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </button>
           <button
             onClick={() => setCurrentIndex((prev) => (prev + 1) % content.people.length)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
+            className="absolute right-0 sm:-right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </button>
         </div>
 
-        <div className="flex justify-center mt-10 space-x-3">
+        <div className="flex justify-center mt-8 sm:mt-10 space-x-2 sm:space-x-3">
           {content.people.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? "w-10 bg-[#D4AF37]" : "w-2 bg-gray-300"
+                idx === currentIndex ? "w-8 sm:w-10 bg-[#D4AF37]" : "w-2 bg-gray-300"
               }`}
             />
           ))}
@@ -762,7 +572,7 @@ const OurPeople = () => {
 // ============================================
 // TESTIMONIALS
 // ============================================
-const Testimonials = () => {
+const Testimonials = ({ content }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -770,22 +580,22 @@ const Testimonials = () => {
       setCurrentIndex((prev) => (prev + 1) % content.testimonials.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [content.testimonials.length]);
 
   return (
-    <section id="testimonials" className="py-24 bg-gray-50">
-      <div className="max-w-4xl mx-auto px-6">
+    <section id="testimonials" className="py-12 sm:py-16 lg:py-24 bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
-          <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase font-medium">Client Stories</p>
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mt-4">Testimonials</h2>
+          <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.3em] uppercase font-medium">Client Stories</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-gray-900 mt-3 sm:mt-4">Testimonials</h2>
         </motion.div>
 
-        <div className="relative min-h-[320px]">
+        <div className="relative min-h-[250px] sm:min-h-[300px] lg:min-h-[320px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -793,22 +603,22 @@ const Testimonials = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.7 }}
-              className="text-center"
+              className="text-center px-4"
             >
-              <Quote className="w-12 h-12 text-[#D4AF37] mx-auto mb-6" strokeWidth={1} />
-              <p className="text-2xl md:text-3xl font-light text-gray-800 leading-relaxed italic">
+              <Quote className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-[#D4AF37] mx-auto mb-4 sm:mb-6" strokeWidth={1} />
+              <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-light text-gray-800 leading-relaxed italic">
                 "{content.testimonials[currentIndex].quote}"
               </p>
-              <div className="flex justify-center mt-6 space-x-1">
+              <div className="flex justify-center mt-4 sm:mt-6 space-x-1">
                 {[...Array(content.testimonials[currentIndex].rating)].map((_, i) => (
-                  <Star key={i} size={18} className="text-[#D4AF37] fill-[#D4AF37]" />
+                  <Star key={i} size={16} className="text-[#D4AF37] fill-[#D4AF37]" />
                 ))}
               </div>
-              <div className="mt-6">
-                <p className="text-gray-900 font-medium tracking-wide">
+              <div className="mt-4 sm:mt-6">
+                <p className="text-gray-900 font-medium tracking-wide text-sm sm:text-base">
                   {content.testimonials[currentIndex].author}
                 </p>
-                <p className="text-[#D4AF37] text-sm tracking-widest uppercase mt-1">
+                <p className="text-[#D4AF37] text-xs sm:text-sm tracking-widest uppercase mt-1">
                   {content.testimonials[currentIndex].role}
                 </p>
               </div>
@@ -816,13 +626,13 @@ const Testimonials = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex justify-center mt-10 space-x-3">
+        <div className="flex justify-center mt-8 sm:mt-10 space-x-2 sm:space-x-3">
           {content.testimonials.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? "w-10 bg-[#D4AF37]" : "w-2 bg-gray-300"
+                idx === currentIndex ? "w-8 sm:w-10 bg-[#D4AF37]" : "w-2 bg-gray-300"
               }`}
             />
           ))}
@@ -835,7 +645,7 @@ const Testimonials = () => {
 // ============================================
 // AVAILABLE UNITS
 // ============================================
-const AvailableUnits = () => {
+const AvailableUnits = ({ content }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState(null);
@@ -846,7 +656,7 @@ const AvailableUnits = () => {
       setCurrentIndex((prev) => (prev + 1) % content.units.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [content.units.length]);
 
   const openModal = (unit) => {
     setSelectedUnit(unit);
@@ -855,37 +665,24 @@ const AvailableUnits = () => {
   };
 
   const amenityIcons = {
-    "Swimming Pool": Waves,
-    "Rooftop Pool": Waves,
-    "Fitness Center": Dumbbell,
-    "Private Gym": Dumbbell,
-    "24/7 Security": Shield,
-    "Concierge": Shield,
-    "Parking": Car,
-    "Valet Parking": Car,
-    "Garden Lounge": Trees,
-    "Sky Lounge": Trees,
-    "High-Speed Internet": Wifi,
-    "Business Center": Building2,
-    "Lake Access": Waves,
-    "Clubhouse": Home,
-    "Jogging Paths": Trees,
-    "Playgrounds": Trees,
-    "Security": Shield,
-    "Green Spaces": Trees,
+    "Swimming Pool": Waves, "Rooftop Pool": Waves, "Fitness Center": Dumbbell, "Private Gym": Dumbbell,
+    "24/7 Security": Shield, "Concierge": Shield, "Parking": Car, "Valet Parking": Car,
+    "Garden Lounge": Trees, "Sky Lounge": Trees, "High-Speed Internet": Wifi, "Business Center": Building2,
+    "Lake Access": Waves, "Clubhouse": Home, "Jogging Paths": Trees, "Playgrounds": Trees,
+    "Security": Shield, "Green Spaces": Trees,
   };
 
   return (
-    <section id="units" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="units" className="py-12 sm:py-16 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
-          <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase font-medium">Featured Properties</p>
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mt-4">Available Units</h2>
+          <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.3em] uppercase font-medium">Featured Properties</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-gray-900 mt-3 sm:mt-4">Available Units</h2>
         </motion.div>
 
         <div className="relative">
@@ -896,7 +693,7 @@ const AvailableUnits = () => {
               className="flex"
             >
               {content.units.map((unit, idx) => (
-                <div key={idx} className="w-full flex-shrink-0 px-4">
+                <div key={idx} className="w-full flex-shrink-0 px-2 sm:px-4">
                   <div
                     onClick={() => openModal(unit)}
                     className="bg-gray-50 border border-gray-200 hover:border-[#D4AF37] transition-all duration-500 cursor-pointer group overflow-hidden"
@@ -907,18 +704,18 @@ const AvailableUnits = () => {
                         alt={unit.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute top-4 right-4 bg-[#D4AF37] text-black px-4 py-2 text-xs font-semibold tracking-widest uppercase">
+                      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-[#D4AF37] text-black px-3 sm:px-4 py-1 sm:py-2 text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
                         View Details
                       </div>
                     </div>
-                    <div className="p-8">
-                      <h3 className="text-2xl font-medium text-gray-900 tracking-wide">{unit.title}</h3>
-                      <div className="flex items-center mt-3 text-gray-600">
-                        <MapPin size={16} className="text-[#D4AF37] mr-2" />
-                        <span className="text-sm tracking-wide">{unit.location}</span>
+                    <div className="p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900 tracking-wide">{unit.title}</h3>
+                      <div className="flex items-center mt-2 sm:mt-3 text-gray-600">
+                        <MapPin size={14} className="text-[#D4AF37] mr-2 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm tracking-wide">{unit.location}</span>
                       </div>
-                      <div className="mt-4 pt-4 border-t border-gray-200">
-                        <p className="text-[#D4AF37] text-xl font-medium">{unit.price}</p>
+                      <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200">
+                        <p className="text-[#D4AF37] text-base sm:text-lg lg:text-xl font-medium">{unit.price}</p>
                       </div>
                     </div>
                   </div>
@@ -929,24 +726,24 @@ const AvailableUnits = () => {
 
           <button
             onClick={() => setCurrentIndex((prev) => (prev - 1 + content.units.length) % content.units.length)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
+            className="absolute left-0 sm:-left-2 top-1/2 -translate-y-1/2 -translate-x-1 sm:-translate-x-2 w-10 h-10 sm:w-12 sm:h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </button>
           <button
             onClick={() => setCurrentIndex((prev) => (prev + 1) % content.units.length)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
+            className="absolute right-0 sm:-right-2 top-1/2 -translate-y-1/2 translate-x-1 sm:translate-x-2 w-10 h-10 sm:w-12 sm:h-12 bg-[#D4AF37] text-black flex items-center justify-center hover:bg-black hover:text-[#D4AF37] transition-colors"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </button>
 
-          <div className="flex justify-center mt-10 space-x-2">
+          <div className="flex justify-center mt-8 sm:mt-10 space-x-2">
             {content.units.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 className={`h-1 transition-all duration-300 ${
-                  idx === currentIndex ? "w-10 bg-[#D4AF37]" : "w-4 bg-gray-300"
+                  idx === currentIndex ? "w-6 sm:w-10 bg-[#D4AF37]" : "w-4 bg-gray-300"
                 }`}
               />
             ))}
@@ -960,7 +757,7 @@ const AvailableUnits = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 overflow-y-auto"
+            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
             onClick={() => setModalOpen(false)}
           >
             <motion.div
@@ -968,36 +765,36 @@ const AvailableUnits = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white max-w-5xl w-full max-h-[90vh] overflow-y-auto my-8"
+              className="bg-white max-w-5xl w-full max-h-[95vh] overflow-y-auto my-4 sm:my-8 rounded-sm"
             >
-              <div className="sticky top-0 bg-white z-10 flex justify-between items-center p-6 border-b border-gray-200">
-                <h3 className="text-2xl font-medium text-gray-900">{selectedUnit.title}</h3>
+              <div className="sticky top-0 bg-white z-10 flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
+                <h3 className="text-lg sm:text-2xl font-medium text-gray-900">{selectedUnit.title}</h3>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center hover:bg-gray-100 transition-colors"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
               </div>
 
-              <div className="p-6 md:p-8">
-                <div className="relative aspect-[16/10] mb-6 overflow-hidden">
+              <div className="p-4 sm:p-6 lg:p-8">
+                <div className="relative aspect-[16/10] mb-4 sm:mb-6 overflow-hidden">
                   <img
                     src={selectedUnit.gallery[modalGalleryIndex].image}
                     alt={selectedUnit.gallery[modalGalleryIndex].label}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 text-sm tracking-widest uppercase">
+                  <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 bg-black/70 text-white px-3 sm:px-4 py-1 sm:py-2 text-xs tracking-widest uppercase">
                     {selectedUnit.gallery[modalGalleryIndex].label}
                   </div>
                 </div>
 
-                <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+                <div className="flex gap-2 mb-6 sm:mb-8 overflow-x-auto pb-2">
                   {selectedUnit.gallery.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setModalGalleryIndex(idx)}
-                      className={`flex-shrink-0 w-20 h-20 overflow-hidden border-2 transition-all ${
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border-2 transition-all ${
                         idx === modalGalleryIndex ? "border-[#D4AF37]" : "border-gray-200"
                       }`}
                     >
@@ -1006,33 +803,33 @@ const AvailableUnits = () => {
                   ))}
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="grid md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
                   <div className="md:col-span-2">
-                    <h4 className="text-lg font-medium text-gray-900 mb-3">About This Property</h4>
-                    <p className="text-gray-600 leading-relaxed">{selectedUnit.description}</p>
+                    <h4 className="text-base sm:text-lg font-medium text-gray-900 mb-2 sm:mb-3">About This Property</h4>
+                    <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{selectedUnit.description}</p>
                   </div>
-                  <div className="bg-gray-50 p-6 border border-gray-200">
-                    <p className="text-sm text-gray-600 tracking-wide uppercase">Location</p>
-                    <p className="text-gray-900 font-medium mt-1">{selectedUnit.location}</p>
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <p className="text-sm text-gray-600 tracking-wide uppercase">Starting Price</p>
-                      <p className="text-[#D4AF37] text-2xl font-medium mt-1">{selectedUnit.price}</p>
+                  <div className="bg-gray-50 p-4 sm:p-6 border border-gray-200">
+                    <p className="text-xs text-gray-600 tracking-wide uppercase">Location</p>
+                    <p className="text-gray-900 font-medium mt-1 text-sm sm:text-base">{selectedUnit.location}</p>
+                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200">
+                      <p className="text-xs text-gray-600 tracking-wide uppercase">Starting Price</p>
+                      <p className="text-[#D4AF37] text-lg sm:text-2xl font-medium mt-1">{selectedUnit.price}</p>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-gray-900 mb-4">Amenities</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <h4 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">Amenities</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
                     {selectedUnit.amenities.map((amenity, idx) => {
                       const IconComponent = amenityIcons[amenity] || Shield;
                       return (
                         <div
                           key={idx}
-                          className="flex items-center space-x-3 p-4 bg-gray-50 border border-gray-200"
+                          className="flex items-center space-x-2 sm:space-x-3 p-3 sm:p-4 bg-gray-50 border border-gray-200"
                         >
-                          <IconComponent size={20} className="text-[#D4AF37]" strokeWidth={1.5} />
-                          <span className="text-gray-700 text-sm">{amenity}</span>
+                          <IconComponent size={16} className="text-[#D4AF37] flex-shrink-0" strokeWidth={1.5} />
+                          <span className="text-gray-700 text-xs sm:text-sm">{amenity}</span>
                         </div>
                       );
                     })}
@@ -1045,10 +842,10 @@ const AvailableUnits = () => {
                     const el = document.querySelector("#contact");
                     if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="mt-8 w-full py-4 bg-[#D4AF37] text-black font-semibold tracking-widest uppercase text-sm hover:bg-black hover:text-[#D4AF37] transition-all duration-300 flex items-center justify-center space-x-2"
+                  className="mt-6 sm:mt-8 w-full py-3 sm:py-4 bg-[#D4AF37] text-black font-semibold tracking-widest uppercase text-xs sm:text-sm hover:bg-black hover:text-[#D4AF37] transition-all duration-300 flex items-center justify-center space-x-2"
                 >
                   <span>Inquire About This Unit</span>
-                  <ArrowRight size={18} />
+                  <ArrowRight size={16} />
                 </button>
               </div>
             </motion.div>
@@ -1062,56 +859,56 @@ const AvailableUnits = () => {
 // ============================================
 // CONTACT
 // ============================================
-const Contact = () => {
+const Contact = ({ content }) => {
   return (
-    <section id="contact" className="py-24 bg-black text-white">
-      <div className="max-w-5xl mx-auto px-6">
+    <section id="contact" className="py-12 sm:py-16 lg:py-24 bg-black text-white">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
-          <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase font-medium">Reach Out</p>
-          <h2 className="text-4xl md:text-5xl font-light mt-4">Get in Touch</h2>
-          <p className="text-white/60 mt-4 max-w-2xl mx-auto">
+          <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.3em] uppercase font-medium">Reach Out</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light mt-3 sm:mt-4">Get in Touch</h2>
+          <p className="text-white/60 mt-3 sm:mt-4 max-w-2xl mx-auto text-sm sm:text-base px-2">
             Ready to begin your journey? Connect with us through any of the channels below.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 mb-16">
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="space-y-4 sm:space-y-6"
           >
-            <div className="flex items-start space-x-4">
-              <Phone className="text-[#D4AF37] mt-1 flex-shrink-0" size={20} />
+            <div className="flex items-start space-x-3 sm:space-x-4">
+              <Phone className="text-[#D4AF37] mt-1 flex-shrink-0" size={18} />
               <div>
-                <p className="text-sm text-white/50 tracking-widest uppercase">Phone</p>
-                <p className="text-white mt-1">{content.contact.phone}</p>
+                <p className="text-xs text-white/50 tracking-widest uppercase">Phone</p>
+                <p className="text-white mt-1 text-sm sm:text-base">{content.contact.phone}</p>
               </div>
             </div>
-            <div className="flex items-start space-x-4">
-              <Mail className="text-[#D4AF37] mt-1 flex-shrink-0" size={20} />
+            <div className="flex items-start space-x-3 sm:space-x-4">
+              <Mail className="text-[#D4AF37] mt-1 flex-shrink-0" size={18} />
               <div>
-                <p className="text-sm text-white/50 tracking-widest uppercase">Email</p>
-                <p className="text-white mt-1">{content.contact.email}</p>
+                <p className="text-xs text-white/50 tracking-widest uppercase">Email</p>
+                <p className="text-white mt-1 text-sm sm:text-base">{content.contact.email}</p>
               </div>
             </div>
-            <div className="flex items-start space-x-4">
-              <MapPin className="text-[#D4AF37] mt-1 flex-shrink-0" size={20} />
+            <div className="flex items-start space-x-3 sm:space-x-4">
+              <MapPin className="text-[#D4AF37] mt-1 flex-shrink-0" size={18} />
               <div>
-                <p className="text-sm text-white/50 tracking-widest uppercase">Office</p>
-                <p className="text-white mt-1">{content.contact.address}</p>
+                <p className="text-xs text-white/50 tracking-widest uppercase">Office</p>
+                <p className="text-white mt-1 text-sm sm:text-base">{content.contact.address}</p>
               </div>
             </div>
-            <div className="flex items-start space-x-4">
-              <Clock className="text-[#D4AF37] mt-1 flex-shrink-0" size={20} />
+            <div className="flex items-start space-x-3 sm:space-x-4">
+              <Clock className="text-[#D4AF37] mt-1 flex-shrink-0" size={18} />
               <div>
-                <p className="text-sm text-white/50 tracking-widest uppercase">Hours</p>
-                <p className="text-white mt-1">{content.contact.hours}</p>
+                <p className="text-xs text-white/50 tracking-widest uppercase">Hours</p>
+                <p className="text-white mt-1 text-sm sm:text-base">{content.contact.hours}</p>
               </div>
             </div>
           </motion.div>
@@ -1122,17 +919,17 @@ const Contact = () => {
             viewport={{ once: true }}
             className="flex flex-col justify-center"
           >
-            <p className="text-sm text-white/50 tracking-widest uppercase mb-6">Follow Us</p>
-            <div className="flex space-x-6">
+            <p className="text-xs text-white/50 tracking-widest uppercase mb-4 sm:mb-6">Follow Us</p>
+            <div className="flex space-x-3 sm:space-x-4 lg:space-x-6">
               {Object.keys(content.contact.socials).map((social) => (
                 <a
                   key={social}
                   href={content.contact.socials[social]}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-14 h-14 border-2 border-[#D4AF37] text-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition-all duration-300"
+                  className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 border-2 border-[#D4AF37] text-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition-all duration-300"
                 >
-                  <SocialIcon type={social} className="w-6 h-6" />
+                  <SocialIcon type={social} className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
                 </a>
               ))}
             </div>
@@ -1146,27 +943,27 @@ const Contact = () => {
 // ============================================
 // FOOTER
 // ============================================
-const Footer = () => {
+const Footer = ({ content }) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-16 bg-gray-50 border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
+    <footer className="py-10 sm:py-12 lg:py-16 bg-gray-50 border-t border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 mb-8 sm:mb-12">
           <div>
-            <h3 className="text-xl font-medium text-gray-900 tracking-wide">
-              <sup className="text-[#D4AF37] text-sm">Team</sup> HUSTLERS
+            <h3 className="text-base sm:text-lg lg:text-xl font-medium text-gray-900 tracking-wide">
+              <sup className="text-[#D4AF37] text-xs sm:text-sm">Team</sup> HUSTLERS
             </h3>
-            <p className="text-[#D4AF37] text-sm tracking-widest uppercase mt-2">
+            <p className="text-[#D4AF37] text-xs tracking-widest uppercase mt-2">
               {content.brand.tagline}
             </p>
-            <p className="text-gray-600 text-sm mt-4 leading-relaxed">
+            <p className="text-gray-600 text-xs sm:text-sm mt-3 sm:mt-4 leading-relaxed">
               {content.brand.footerTagline}
             </p>
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-gray-900 tracking-widest uppercase mb-4">
+            <h4 className="text-xs font-medium text-gray-900 tracking-widest uppercase mb-3 sm:mb-4">
               Quick Links
             </h4>
             <ul className="space-y-2">
@@ -1177,7 +974,7 @@ const Footer = () => {
                       const el = document.querySelector(link.href);
                       if (el) el.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="text-gray-600 hover:text-[#D4AF37] transition-colors text-sm"
+                    className="text-gray-600 hover:text-[#D4AF37] transition-colors text-xs sm:text-sm"
                   >
                     {link.label}
                   </button>
@@ -1187,30 +984,30 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-gray-900 tracking-widest uppercase mb-4">
+            <h4 className="text-xs font-medium text-gray-900 tracking-widest uppercase mb-3 sm:mb-4">
               Connect
             </h4>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               {Object.keys(content.contact.socials).map((social) => (
                 <a
                   key={social}
                   href={content.contact.socials[social]}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 border border-gray-300 text-gray-600 flex items-center justify-center hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300"
+                  className="w-8 h-8 sm:w-10 sm:h-10 border border-gray-300 text-gray-600 flex items-center justify-center hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300"
                 >
-                  <SocialIcon type={social} className="w-4 h-4" />
+                  <SocialIcon type={social} className="w-3 h-3 sm:w-4 sm:h-4" />
                 </a>
               ))}
             </div>
-            <p className="text-gray-600 text-sm mt-6">
+            <p className="text-gray-600 text-xs sm:text-sm mt-4 sm:mt-6">
               {content.contact.email}
             </p>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-gray-500 text-xs tracking-wide">
+        <div className="pt-6 sm:pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+          <p className="text-gray-500 text-xs tracking-wide text-center sm:text-left">
             © {currentYear} <sup className="text-[#D4AF37]">Team</sup> HUSTLERS UAE. All rights reserved.
           </p>
           <p className="text-[#D4AF37] text-xs tracking-widest uppercase">
@@ -1223,21 +1020,69 @@ const Footer = () => {
 };
 
 // ============================================
-// MAIN APP
+// MAIN APP (FETCHES FROM DATABASE)
 // ============================================
 export default function App() {
+  const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        // Fetches from the API route we created in app/api/content/route.js
+        const res = await fetch('/api/content');
+        if (!res.ok) throw new Error('Failed to fetch content from database.');
+        const data = await res.json();
+        setContent(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
+  // 1. Show a loading spinner while fetching from MongoDB
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="w-16 h-16 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // 2. Show an error message if the database connection fails
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-white text-center p-6">
+        <div>
+          <h2 className="text-2xl text-[#D4AF37] mb-4">Failed to Load Content</h2>
+          <p className="text-white/60 mb-6">{error}</p>
+          <p className="text-sm text-white/40">Please check your MongoDB connection and API route.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Fallback if content is somehow empty
+  if (!content) return null;
+
+  // 4. Render the site and pass the database 'content' down to all components
   return (
-    <div className="min-h-screen bg-white font-sans antialiased">
-      <Header />
-      <Hero />
-      <About />
-      <Services />
-      <Gallery />
-      <OurPeople />
-      <Testimonials />
-      <AvailableUnits />
-      <Contact />
-      <Footer />
+    <div className="min-h-screen bg-white font-sans antialiased overflow-x-hidden">
+      <Header content={content} />
+      <Hero content={content} />
+      <About content={content} />
+      <Services content={content} />
+      <Gallery content={content} />
+      <OurPeople content={content} />
+      <Testimonials content={content} />
+      <AvailableUnits content={content} />
+      <Contact content={content} />
+      <Footer content={content} />
     </div>
   );
 }
